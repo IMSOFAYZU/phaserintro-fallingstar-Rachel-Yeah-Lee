@@ -10,6 +10,13 @@
             type: Phaser.AUTO,
             width: 800,
             height: 600,
+            physics:{
+                default: 'arcade',
+                arcade:{
+                    gravity: { y : 300},
+                    debug: false
+                }
+            },
             scene: {
                 preload: preload,
                 create: create,
@@ -24,6 +31,21 @@
         }
         function create(){
             this.add.image(400, 300, 'sky');
+            platforms=this.physics.add.staticGroup();
+            platforms.create(600,400,'ground');
+            platforms.create(50,250,'ground');
+            platforms.create(750,220,'ground');
+
+            stars=this.physics.add.group();
+            for(i=0;i<100;i++){
+                x=Math.random()*800;
+                y=Math.random()*100;
+                star=stars.create(x,y,'star');
+                star.setBounceX(1.0);
+                star.setBounceY(1.0);
+            }
+            this.physics.add.collider(stars,platforms);
+            this.physics.add.collider(stars,stars);
         }
         function update(){
         }
